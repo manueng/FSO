@@ -5,8 +5,8 @@
 int main()
 {
 	printf("%d\n ",pot(2,4));
-	printf("%d\n",fatorial(13));
-        printf("%d\n",calcn(20));
-        printf("%d\n",seno
+	printf("%d\n",fatorial(10));
+    printf("%d\n",calcn(20));
+    printf("%lf\n",seno(60.0));
 	return 0;
 }

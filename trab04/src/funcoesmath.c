@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "funcoesmath.h"
 
-  unsigned int  fatorial(int numero)
+  int  fatorial(int numero)
   {
 	if(numero>0)
 		return numero*fatorial(numero-1); 
