@@ -16,3 +16,7 @@
          	result=result*numero;
 		 return result;	
 	}    
+
+  int  calcn(int n){
+      return (2*n)+1;
+ }
