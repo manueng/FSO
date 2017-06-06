@@ -5,13 +5,37 @@
 
 int main()
 {
-    void* handle = dlopen("libseno.so", RTLD_LAZY);
-    int(*pot)(int,int) = dlsym(handle, "pot");
-	printf("%d\n ",(*pot)(2,4));
-	dlclose(handle);
-    /*printf("%d\n",fatorial(10));
-	printf("%d\n",calcn(20));
-    printf("%lf\n",seno(60.0));*/
+    
+    int modo_seno , modo_arcseno;
+    double angulo;
+	if(argc==3){
+		modo_seno=strcmp(argv[1],"-s");
+		modo_arcseno=strcmp(argv[1],"-a");
+	   	angulo= atof(argv[2]);
+		if(modo_seno==0)
+		{
+	        void* handle = dlopen("libseno.so", RTLD_LAZY);
+            double(*seno)(double,double) = dlsym(handle, "seno");   
+			printf("seno(%lf):  %lf\n",angulo,seno(angulo));
+			dlclose(handle);
+		}
+		else if(modo_arcseno==0)
+		{
+		    void* handle = dlopen("libseno.so", RTLD_LAZY);
+            double(*arcseno)(double,double) = dlsym(handle, "arcseno");   
+			printf("arcseno(%lf):  %lf\n",angulo,arcseno(angulo));
+			dlclose(handle);   
+			
+		}
+		else
+		{
+			printf("modo invalido\n");
+		} 
+	}
+	else
+	{
+		printf("numero de argumentos invalido\n");
+	}	         
 	return 0;
 }
 /*void* handle = dlopen("libseno.so", RTLD_LAZY);
