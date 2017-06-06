@@ -17,19 +17,20 @@
    }   
    return result;
   }
-   double arcseno(double n){
-     int iarcs;
-     double result=0;
-     double narcspot;
-     double denominador;
-     double numerador;
-     for(iarcs=0;iarcs<narcs;iarcs++){
-       narcspot= pot(4,narcs);
-       denominador=fatorial(2*n);
-       numerador=(narcspot*pot(fatorial(n),2)*calcn(n))*pot(n,calcn(n));
-       result= result+(denominador/numerador);
-     }
-     return result;
-   }       
-    
+double  arcseno( double x)
+ {
+	int narcs=5;
+	double x= 0.866 ;
+	double Numerador ;
+	int Denominador ;
+	double result=0;
+	for ( int i =0; i<=narcs; i++)
+	{
+	Numerador = 2*fatorial(i)* pot (x, calc(i)) ;
+	printf("%f", Numerador);
+    Denominador= pot(fatorial(i),2)* pot(2,2*i)*calc(i);
+    result =   result+( Numerador/(double) Denominador);
+	}
+	return result;
+}   
        
