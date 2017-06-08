@@ -10,4 +10,5 @@ int main(int argc , char* argv[])
 	{
 		printf("numero de parametros invalido");
 	}
+	return 0;
 }
