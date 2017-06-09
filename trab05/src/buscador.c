@@ -3,7 +3,19 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include "buscador.h"
-
+int cont=0;
+void print_30_bytes(char path[256], char word[256],const int  max_input)
+{
+  if(cont==max_input) return;
+  if(!strstr(word,path)) return;
+  FILE*  achado=fopen(path,"r");
+  char impresso[30];
+  fread(impresso,1,30,achado);
+  cont++;
+  printf("%d,%s",cont,impresso);
+}   
+   
+ 
 void exploring(char path[], char word[256], const int max_input)
 {
 	DIR *d;
@@ -29,10 +41,12 @@ void exploring(char path[], char word[256], const int max_input)
 					}
 					else
 					{
-											
+					  print_30_bytes(dir_name,word,max_input);
+					          						
 					}	
 				}	
 			}
+			
 			  
 		}
 	}
