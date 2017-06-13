@@ -3,16 +3,21 @@
 
 int main(int argc, char* argv[])
 {
-        if(argc<4)
-        {
-                printf(" o numero de argumentos invalido");
-        }
-        else
-        {
-               printf("numero de argumentos valido");
-               alloca( argv[2][1], argv, argc);
-        }                
-        return 0;
+	int numero_de_quadros;
+	int* referencias; 
+	int indice=0;
+	int fifo;
+	printf("digite a quantidade de quadros na memoria\n");
+	scanf("%d",&numero_de_quadros);
+	referencias=ler_referencia();
+	while(referencias[indice]>0)
+	{
+		printf("Indice: %d\t Valor: %d\n" ,indice,referencias[indice]);
+		indice=indice+1;
+	}
+	 fifo=analise_fifo(numero_de_quadros,referencias);
+	 printf("FIFO %d\n", fifo);
+	return 0;	
 }                                
       
 

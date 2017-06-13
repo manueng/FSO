@@ -43,4 +43,10 @@ run:
 	@./$(BIN_DIR)/$(NAME)
 
 tar: clean
-	tar vczf $(NAME).tar.gz *
+	tar vczf $(NAME).tar.gz * 
+
+
+dist-clean: clean
+	@echo Limpando com dist-clean
+	@rm -f $(TARGET)
+	@rm -rf $(BIN_DIR)	
