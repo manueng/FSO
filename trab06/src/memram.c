@@ -30,7 +30,8 @@ int* ler_referencia(void)
  	{
  	        page_fault=quadro_ausente_fifo(referencias[cont],vetor_quadros, numero_de_quadros);	
  		if(page_fault)
- 		{   
+ 		{
+ 		qtd_page_fault++
  		  vetor_quadros[cont]=referencias[cont];
  		}  
  	}
@@ -123,53 +124,66 @@ int* ler_referencia(void)
  }
  int analise_lru(int numero_de_quadros , int *referencias)
  {
- 	int vetor_quadros[numero_de_quadros],vetor_alloc[numero_de_quadros];
- 	int cont,cont_alloc;
+ 	int vetor_quadros[numero_de_quadros],vetor_acesso[numero_de_quadros];
+ 	int cont;
+ 	int cont_alloc=0;
  	int page_fault;
  	int qtd_page_fault=0;
- 	for(cont=0;cont<numero_de_quadros;cont++)
+ 	int quadros_alocados=0;
+ 	for(cont=0;quadros_alocados<numero_de_quadros;cont++)
  	{
- 	        page_fault=quadro_ausente_lru
- 	        (referencias[cont],vetor_quadros, numero_de_quadros, vetor_alloc);	
+ 		if(referencias[cont]<0)
+ 		{
+ 			return qtd_page_fault;
+ 		}	
+ 		page_fault=quadro_ausente_lru
+ 	   	(referencias[cont],vetor_quadros, numero_de_quadros, vetor_acesso,cont);	
  		if(page_fault)
- 		{   
- 		  vetor_quadros[cont]=referencias[cont];
+ 		{
+ 		  vetor_quadros[quadros_alocados]=referencias[cont];
+ 		  quadros_alocados++;
+ 		  qtd_page_fault++;
  		}  
+ 		
  	}
+ 	
  	while(referencias[cont]>0)
  	{
- 		page_fault=quadro_ausente_lru(referencias[cont],vetor_quadros, numero_de_quadros, vetor_alloc);	
+ 		page_fault=quadro_ausente_lru(referencias[cont],vetor_quadros, numero_de_quadros, vetor_acesso,cont);	
  		if(page_fault)
  		{
  			qtd_page_fault++;
- 			cont_alloc= calc_posicao_lru(vetor_alloc, numero_de_quadros);
+ 			cont_alloc= calc_posicao_lru(vetor_acesso, numero_de_quadros);
  			vetor_quadros[cont_alloc]=referencias[cont];
+ 			vetor_acesso[cont_alloc]=cont;
  		}
  	 	cont++;
     }
     
     return qtd_page_fault;
  }
- int quadro_ausente_lru(int valor_quadro,int* vetor_quadros, int  numero_de_quadros,int* vetor_alloc)
+ int quadro_ausente_lru(int valor_quadro,int* vetor_quadros, int  numero_de_quadros,int* vetor_acesso, int acesso)
  {
 	int cont=0;
 	for(cont=0;cont<numero_de_quadros;cont++)
 	{
 		if(vetor_quadros[cont]==valor_quadro)
 		{
-		        vetor_alloc[cont]=vetor_alloc[cont]+1;
+			vetor_acesso[cont]=acesso;
 			return FALSE;
 		}
 	}
 	return TRUE;		
  }
- int calc_posicao_lru(int* vetor_alloc,int numero_de_quadros){
+ int calc_posicao_lru(int* vetor_acesso,int numero_de_quadros){
         int cont_alloc,cont_result;
+        int menor_acesso=0;
+        int indice;
         cont_result=0;
-        for( cont_alloc=0;cont_alloc<numero_de_quadros;cont_alloc++)
+        for(indice=0;indice<numero_de_quadros;indice++)
         {
-                if(vetor_alloc[cont_result]<vetor_alloc[cont_alloc])
-                   cont_result=cont_alloc;
+			if(menor_acesso<vetor_acesso[indice])
+				cont_result=indice;
         }
         return cont_result;                     
  }
