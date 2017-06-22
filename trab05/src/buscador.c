@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
 #include <fcntl.h>
@@ -11,12 +12,13 @@ void print_30_bytes(char path[256], char word[256],const int  max_words)
   if (cont == max_words) return;
   if (!strstr(path, word)) return;
 
-  FILE* sigD = fopen(path, "r");
-  char sig[30];
-  fread(sig, 1, 30, sigD);
+  FILE* achado = fopen(path, "r");
+  char impresso[30];
+  size_t r = fread(impresso, 1, 30, achado);
+  if (r < 0) {fputs ("Reading error",stderr); exit (3);}
   cont++;
   printf("%d. %s --\n", cont, path);
-  printf("\t%s\n", sig);
+  printf("\t%s\n", impresso);
 }   
    
  
@@ -50,10 +52,7 @@ void exploring(char path[], char word[256], const int max_input)
 					}	
 				}	
 			}
-			
-			  
 		}
+		closedir(d);
 	}
-	
-
 }
