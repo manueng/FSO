@@ -3,16 +3,20 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include "buscador.h"
+#include <sys/types.h>
+
 int cont=0;
-void print_30_bytes(char path[256], char word[256],const int  max_input)
+void print_30_bytes(char path[256], char word[256],const int  max_words)
 {
-  if(cont==max_input) return;
-  if(!strstr(word,path)) return;
-  FILE*  achado=fopen(path,"r");
-  char impresso[30];
-  fread(impresso,1,30,achado);
+  if (cont == max_words) return;
+  if (!strstr(path, word)) return;
+
+  FILE* sigD = fopen(path, "r");
+  char sig[30];
+  fread(sig, 1, 30, sigD);
   cont++;
-  printf("%d,%s",cont,impresso);
+  printf("%d. %s --\n", cont, path);
+  printf("\t%s\n", sig);
 }   
    
  
